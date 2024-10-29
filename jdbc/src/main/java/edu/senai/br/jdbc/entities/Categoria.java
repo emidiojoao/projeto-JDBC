@@ -2,7 +2,7 @@ package edu.senai.br.jdbc.entities;
 
 /**
  *
- * @author camila_alves3
+ * @author joao_c_emidio
  */
 public class Categoria {
     

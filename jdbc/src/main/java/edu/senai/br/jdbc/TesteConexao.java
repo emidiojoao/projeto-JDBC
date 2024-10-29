@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author camila_alves3
+ * @author joao_c_emidio
  */
 public class TesteConexao {
     public static void main(String[] args) {

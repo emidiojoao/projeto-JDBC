@@ -12,10 +12,10 @@ import java.util.List;
 
 /**
  *
- * @author camila_alves3
+ * @author joao_c_emidio
  */
 public class CategoriaDAO {
-    
+
     // Create
     public void inserirCategoria(Categoria categoria) throws SQLException {
         String sql = "INSERT INTO Categoria (nome) VALUES (?)";
@@ -34,9 +34,9 @@ public class CategoriaDAO {
 
         }
     }
-    
-     // Buscar por ID
-     public Categoria buscarCategoriaPorId(int id) throws SQLException {
+
+    // Buscar por ID
+    public Categoria buscarCategoriaPorId(int id) throws SQLException {
         String sql = "SELECT * FROM Categoria WHERE id = ?";
         try (Connection conn = ConexaoDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -47,18 +47,37 @@ public class CategoriaDAO {
         }
         return null;
     }
-    
-     // Listar
+
+    // Listar
     public List<Categoria> listarCategoria() throws SQLException {
         String sql = "SELECT * FROM Categoria";
         List<Categoria> categorias = new ArrayList<>();
         try (Connection conn = ConexaoDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 categorias.add(new Categoria(rs.getInt("id"), rs.getString("nome")));
+            }
         }
-    }
-    
+
         return categorias;
     }
-    
+
+    // Update
+    public void atualizarCategoria(Categoria categoria) throws SQLException {
+        String sql = "UPDATE Categoria SET nome = ? WHERE id = ?";
+        try (Connection conn = ConexaoDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, categoria.getNome());
+            stmt.setInt(2, categoria.getId());
+            stmt.executeUpdate();
+        }
+    }
+
+    // Delete
+    public void deletarCategoria(int id) throws SQLException {
+        String sql = "DELETE FROM Categoria WHERE id = ?";
+        try (Connection conn = ConexaoDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
+
 }
