@@ -20,7 +20,6 @@ public class CleanDataTableDAO {
     }
 
 
-
     public void setAutoIncrementeOneTabelaCategoria() throws SQLException {
         String sql = "ALTER TABLE Categoria AUTO_INCREMENT=1;";
         try (Connection conn = ConexaoDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -35,8 +34,8 @@ public class CleanDataTableDAO {
         }
     }
     
-    public void setAutoIncrementOneTableFilme() throws SQLException {
-        String sql = "ALTER TABLE Categoria AUTO_INCREMENT=1;";
+    public void setAutoIncrementeOneTabelaFilme() throws SQLException {
+        String sql = "ALTER TABLE Filme AUTO_INCREMENT=1;";
         try (Connection conn = ConexaoDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.executeUpdate();
         }

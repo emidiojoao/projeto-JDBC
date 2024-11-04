@@ -2,7 +2,9 @@ package edu.senai.br.jdbc;
 
 import edu.senai.br.jdbc.dao.CategoriaDAO;
 import edu.senai.br.jdbc.dao.CleanDataTableDAO;
+import edu.senai.br.jdbc.dao.FilmeDAO;
 import edu.senai.br.jdbc.entities.Categoria;
+import edu.senai.br.jdbc.entities.Filme;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,25 +16,39 @@ public class Jdbc {
 
     public static void main(String[] args) {
         try {
+            //Instanciar
             CategoriaDAO categoriaDAO = new CategoriaDAO();
+            FilmeDAO filmeDAO = new FilmeDAO();
             CleanDataTableDAO cleanDB = new CleanDataTableDAO();
-            cleanDB.deleteTabelaFilme();
+            
+            
+            //cleanDB.deleteTabelaFilme();
             cleanDB.deleteTabelaCategoria();
             cleanDB.setAutoIncrementeOneTabelaCategoria();
-            cleanDB.setAutoIncrementeOneTabelaFilme();
+            //cleanDB.setAutoIncrementeOneTabelaFilme();
 
             // Criar algumas categorias
             Categoria categoria1 = new Categoria(0, "Suspense");
             Categoria categoria2 = new Categoria(0, "Drama");
             Categoria categoria3 = new Categoria(0, "Ação");
             Categoria categoria4 = new Categoria(0, "Romance");
+            
+            // Criar alguns filmes
+            Filme filme1 = new Filme(0, "Os Suspeitos", 2013, "Denis Villeneuve", 3);
+            Filme filme2 = new Filme(0, "Ordinary Angels", 2024, "Jon Gunn", 2);
+            Filme filme3 = new Filme(0,"A Morte do Demônio: A Ascensão", 2023, "Lee Cronin", 1);
+            
 
             //Inserir as categorias no banco
             categoriaDAO.inserirCategoria(categoria1);
             categoriaDAO.inserirCategoria(categoria2);
             categoriaDAO.inserirCategoria(categoria3);
             categoriaDAO.inserirCategoria(categoria4);
-
+            
+            filmeDAO.inserirFilme(filme3);
+            filmeDAO.inserirFilme(filme2);
+            filmeDAO.inserirFilme(filme1);
+                    
             Categoria catBuscada = categoriaDAO.buscarCategoriaPorId(2);
 
             System.out.println("Id: " + catBuscada.getId() + "\nNome: " + catBuscada.getNome());
