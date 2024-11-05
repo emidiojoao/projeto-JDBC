@@ -22,10 +22,10 @@ public class Jdbc {
             CleanDataTableDAO cleanDB = new CleanDataTableDAO();
             
             
-            //cleanDB.deleteTabelaFilme();
+            cleanDB.deleteTabelaFilme();
             cleanDB.deleteTabelaCategoria();
             cleanDB.setAutoIncrementeOneTabelaCategoria();
-            //cleanDB.setAutoIncrementeOneTabelaFilme();
+            cleanDB.setAutoIncrementeOneTabelaFilme();
 
             // Criar algumas categorias
             Categoria categoria1 = new Categoria(0, "Suspense");
@@ -49,33 +49,50 @@ public class Jdbc {
             filmeDAO.inserirFilme(filme2);
             filmeDAO.inserirFilme(filme1);
                     
-            Categoria catBuscada = categoriaDAO.buscarCategoriaPorId(2);
-
-            System.out.println("Id: " + catBuscada.getId() + "\nNome: " + catBuscada.getNome());
-
-            // Buscar categoria por ID
-            Categoria categoriaBuscada = categoriaDAO.buscarCategoriaPorId(1);
-            System.out.println("Categoria ID 1: " + (categoriaBuscada != null ? categoria1.getNome() : "Não encontrada"));
-
-            // Buscar categoria por ID não existente
-            categoriaBuscada = categoriaDAO.buscarCategoriaPorId(100);
-            System.out.println("Categoria ID 100: " + (categoriaBuscada != null ? categoria1.getNome() : "Não encontrada"));
-
+            System.out.println("------------------- CATEGORIA -------------------");
+            
             // Listar todas as categorias
             List<Categoria> categorias = categoriaDAO.listarCategoria();
             System.out.println("Lista de categorias:");
             for (Categoria categoria : categorias) {
                 System.out.println("ID: " + categoria.getId() + ", Nome: " + categoria.getNome());
             }
-
+            
+            // Buscar categoria por ID (Simples)
+            Categoria catBuscada = categoriaDAO.buscarCategoriaPorId(2);
+            System.out.println("\nID Buscado: " + catBuscada.getId() + " Nome: " + catBuscada.getNome());     
+            // Buscar categoria por ID (Complexo)
+            Categoria categoriaBuscada = categoriaDAO.buscarCategoriaPorId(1);
+            System.out.println("Categoria ID 1: " + (categoriaBuscada != null ? categoria1.getNome() : "Não encontrada"));
+            // Buscar categoria por ID não existente
+            categoriaBuscada = categoriaDAO.buscarCategoriaPorId(100);
+            System.out.println("Categoria ID 100: " + (categoriaBuscada != null ? categoria1.getNome() : "Não encontrada"));
+            
             // Atualizar uma categoria
             categoria1.setNome("Terror");
             categoriaDAO.atualizarCategoria(categoria1);
             System.out.println("Categoria ID 1 atualizada para: " + categoria1.getNome());
-
+            
             // Deletar uma categoria
             categoriaDAO.deletarCategoria(4);
-            System.out.println("Categoria com nome id=4 foi deletada.");
+            System.out.println("Categoria com nome id=4 foi deletada.\n");
+            
+            for (Categoria categoria : categorias) {
+                System.out.println("ID: " + categoria.getId() + ", Nome: " + categoria.getNome());
+            }
+            
+
+            System.out.println("\n--------------------- FILME ---------------------");
+            
+            // Buscar filme por ID (FILME)
+            Filme filmeBuscado = filmeDAO.buscarFilmePorId(1);
+            System.out.println("\nFilme ID 1: " + (filmeBuscado != null ? filme1.getTitulo() : "Não encontrada"));
+            
+            filmeBuscado = filmeDAO.buscarFilmePorId(100);
+            System.out.println("Filme ID 100: " + (filmeBuscado != null ? filme1.getTitulo() : "Não encontrado"));
+            
+
+
 
         } catch (SQLException e) {
             System.err.println("Algo errado aconteceu com a manipulação do DB");

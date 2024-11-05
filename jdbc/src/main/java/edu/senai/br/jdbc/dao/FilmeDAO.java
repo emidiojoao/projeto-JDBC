@@ -40,4 +40,21 @@ public class FilmeDAO {
 
         }
     }
+    
+    public Filme buscarFilmePorId(int id) throws SQLException {
+        String sql = "SELECT * FROM Filme WHERE id = ?";
+        try (Connection conn = ConexaoDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Filme(
+                        rs.getInt( "id"),
+                        rs.getString("titulo"),
+                        rs.getInt("ano"),
+                        rs.getString("diretor"),
+                        rs.getInt("categoria_id"));
+            }
+        }
+    return null;
+}
 }
