@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -57,4 +59,36 @@ public class FilmeDAO {
         }
     return null;
 }
+    
+        // Get filmes
+    public List<Filme> listarFilmes() throws SQLException {
+        String sql = "SELECT * FROM Filme";
+        List<Filme> filmes = new ArrayList<>();
+        try (Connection connection = ConexaoDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                filmes.add(new Filme(
+                        resultSet.getInt("id"),
+                        resultSet.getString("titulo"),
+                        resultSet.getInt("ano"),
+                        resultSet.getString("diretor"),
+                        resultSet.getInt("categoria_id")
+                ));
+            }
+        }
+        return filmes;
+    }
+    
+    public void atualizarFilme (Filme filme) throws SQLException {
+        String sql = "UPADATE Filme SET titulo = ?, ano = ?, diretor = ?, categoria_id = ? WHERE id = ?";
+        try (Connection conn = ConexaoDB.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, filme.toString());
+            stmt.setInt(2, filme.getAno());
+            stmt.setString(3, filme.getDiretor());
+            stmt.setInt(4, filme.getCategoria_id());
+            stmt.setInt(5, filme.getId());
+            stmt.executeUpdate();
+            
+        }
+    }
 }

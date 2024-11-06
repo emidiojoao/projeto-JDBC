@@ -32,6 +32,7 @@ public class Jdbc {
             Categoria categoria2 = new Categoria(0, "Drama");
             Categoria categoria3 = new Categoria(0, "Ação");
             Categoria categoria4 = new Categoria(0, "Romance");
+            Categoria categoria5 = new Categoria(0, "Terror");
             
             // Criar alguns filmes
             Filme filme1 = new Filme(0, "Os Suspeitos", 2013, "Denis Villeneuve", 3);
@@ -74,8 +75,8 @@ public class Jdbc {
             System.out.println("Categoria ID 1 atualizada para: " + categoria1.getNome());
             
             // Deletar uma categoria
-            categoriaDAO.deletarCategoria(4);
-            System.out.println("Categoria com nome id=4 foi deletada.\n");
+            categoriaDAO.deletarCategoria(5);
+            System.out.println("Categoria com nome id=5 foi deletada.\n");
             
             for (Categoria categoria : categorias) {
                 System.out.println("ID: " + categoria.getId() + ", Nome: " + categoria.getNome());
@@ -91,8 +92,35 @@ public class Jdbc {
             filmeBuscado = filmeDAO.buscarFilmePorId(100);
             System.out.println("Filme ID 100: " + (filmeBuscado != null ? filme1.getTitulo() : "Não encontrado"));
             
+            // Listar filmes
+            List<Filme> filmes = filmeDAO.listarFilmes();
+            System.out.println(filmes);
+            for(Filme filme : filmes) {
+                System.out.printf("""
+                                   ID: %s
+                                   Título: %s
+                                   Ano: %s
+                                   Diretor: %s
+                                   Categoria associada: %s
+                                   """, filme.getId(), filme.getTitulo(), filme.getAno(), filme.getDiretor(), filme.getCategoria_id());
+            }
 
-
+            // Atualizar Filme
+            filme1.setTitulo("Home Alone");
+            filme1.setAno(1990);
+            filme1.setDiretor("Chris Columbos");
+            filme1.setCategoria_id(0);
+            
+            System.out.println("ATUALIZAÇÃO DE FILME");
+            for(Filme filme : filmes) {
+                System.out.printf("""
+                                   ID: %s
+                                   Título: %s
+                                   Ano: %s
+                                   Diretor: %s
+                                   Categoria associada: %s
+                                   """, filme.getId(), filme.getTitulo(), filme.getAno(), filme.getDiretor(), filme.getCategoria_id());
+            }
 
         } catch (SQLException e) {
             System.err.println("Algo errado aconteceu com a manipulação do DB");
