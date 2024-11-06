@@ -45,6 +45,7 @@ public class Jdbc {
             categoriaDAO.inserirCategoria(categoria2);
             categoriaDAO.inserirCategoria(categoria3);
             categoriaDAO.inserirCategoria(categoria4);
+            categoriaDAO.inserirCategoria(categoria5);
             
             filmeDAO.inserirFilme(filme3);
             filmeDAO.inserirFilme(filme2);
@@ -76,8 +77,9 @@ public class Jdbc {
             
             // Deletar uma categoria
             categoriaDAO.deletarCategoria(5);
-            System.out.println("Categoria com nome id=5 foi deletada.\n");
+            System.out.println("Categoria com ID: 5 foi deletada.\n");
             
+            categorias = categoriaDAO.listarCategoria();
             for (Categoria categoria : categorias) {
                 System.out.println("ID: " + categoria.getId() + ", Nome: " + categoria.getNome());
             }
@@ -94,35 +96,33 @@ public class Jdbc {
             
             // Listar filmes
             List<Filme> filmes = filmeDAO.listarFilmes();
-            System.out.println(filmes);
-            for(Filme filme : filmes) {
-                System.out.printf("""
-                                   ID: %s
-                                   Título: %s
-                                   Ano: %s
-                                   Diretor: %s
-                                   Categoria associada: %s
-                                   """, filme.getId(), filme.getTitulo(), filme.getAno(), filme.getDiretor(), filme.getCategoria_id());
+            System.out.println("\nFILME ANTES DE ATUALIZAR");
+            for (Filme filme : filmes) {
+                System.out.println("ID: " + filme.getId() + ", Nome: " + filme.getTitulo());
             }
 
             // Atualizar Filme
             filme1.setTitulo("Home Alone");
             filme1.setAno(1990);
             filme1.setDiretor("Chris Columbos");
-            filme1.setCategoria_id(0);
+            filme1.setCategoria_id(3);
+            filmeDAO.atualizarFilme(filme1);  
             
-            System.out.println("ATUALIZAÇÃO DE FILME");
-            for(Filme filme : filmes) {
-                System.out.printf("""
-                                   ID: %s
-                                   Título: %s
-                                   Ano: %s
-                                   Diretor: %s
-                                   Categoria associada: %s
-                                   """, filme.getId(), filme.getTitulo(), filme.getAno(), filme.getDiretor(), filme.getCategoria_id());
+            // Deletar Filme
+            filmeDAO.deletarFilme(2);
+            System.out.println("Filme com id: 2 foi deletada.\n");
+            
+            
+            filmes = filmeDAO.listarFilmes();
+            System.out.println("\nFILME DEPOIS DE ATUALIZAR");
+            for (Filme filme : filmes) {
+                System.out.println("ID: " + filme.getId() + ", Nome: " + filme.getTitulo());
             }
 
+            
+
         } catch (SQLException e) {
+            e.printStackTrace();
             System.err.println("Algo errado aconteceu com a manipulação do DB");
         }
     }

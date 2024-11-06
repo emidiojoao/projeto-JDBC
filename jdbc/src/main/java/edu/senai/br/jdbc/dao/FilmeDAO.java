@@ -78,17 +78,26 @@ public class FilmeDAO {
         return filmes;
     }
     
-    public void atualizarFilme (Filme filme) throws SQLException {
-        String sql = "UPADATE Filme SET titulo = ?, ano = ?, diretor = ?, categoria_id = ? WHERE id = ?";
+    public void atualizarFilme(Filme filme) throws SQLException {
+        String sql = "UPDATE Filme SET titulo = ?, ano = ?, diretor = ?, categoria_id = ? WHERE id = ?;";
+        try (Connection connection = ConexaoDB.getConnection(); 
+                PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, filme.getTitulo());
+            preparedStatement.setInt(2, filme.getAno());
+            preparedStatement.setString(3, filme.getDiretor());
+            preparedStatement.setInt(4, filme.getCategoria_id());
+            preparedStatement.setInt(5, filme.getId());
+            preparedStatement.executeUpdate();           
+        }
+    }
+    
+    //Delete 
+    public void deletarFilme(int id) throws SQLException {
+        String sql = "DELETE FROM Filme WHERE id = ?";
         try (Connection conn = ConexaoDB.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, filme.toString());
-            stmt.setInt(2, filme.getAno());
-            stmt.setString(3, filme.getDiretor());
-            stmt.setInt(4, filme.getCategoria_id());
-            stmt.setInt(5, filme.getId());
+            stmt.setInt(1, id);
             stmt.executeUpdate();
-            
         }
     }
 }
